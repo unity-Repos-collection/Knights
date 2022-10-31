@@ -7,6 +7,10 @@ public class player : MonoBehaviour
     Animator anim;
     Rigidbody rb;
     private float movementspeed = 1f;
+    private float xVector = 0f;
+    private float yVector = 0f;
+    private float zVector = 2f;
+    private float minuszVector = -2f;
     // Start is called before the first frame update
     
     void Awake() 
@@ -43,7 +47,7 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             anim.SetBool("bwalking",true);
-            transform.Translate(0,0,1 * movementspeed *Time.deltaTime);
+            transform.Translate(xVector,yVector,zVector * movementspeed *Time.deltaTime);
         }
         else
         {
@@ -53,7 +57,7 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {   
             anim.SetBool("bwalking",true);
-            transform.Translate(0,0,-1 * movementspeed *Time.deltaTime);
+            transform.Translate(xVector,yVector,minuszVector * movementspeed *Time.deltaTime);
         }
     }
 
