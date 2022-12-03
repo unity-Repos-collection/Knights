@@ -6,17 +6,19 @@ public class player : MonoBehaviour
 {   
     Animator anim;
     Rigidbody rb;
-    private float movementspeed = 1f;
-    private float xVector = 0f;
-    private float yVector = 0f;
-    private float zVector = 2f;
-    private float minuszVector = -2f;
+
+    public float speed;
+    public float runningSpeed;
+    
+    public float rotationSpeed;
+    
     // Start is called before the first frame update
     
     void Awake() 
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        
     }
     
     void Start()
@@ -28,12 +30,54 @@ public class player : MonoBehaviour
     void Update()
     {
         movement();
-        hit();
+        swingsword();
         block();
+        
     }
 
 
-    void hit()
+    
+
+    void movement()
+    {   
+        
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        //walking
+        if (Input.GetKey(KeyCode.D) || (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.S)))))
+        {
+            anim.SetBool("bwalking", true);
+            movementDirection.Normalize();
+            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            anim.SetBool("bwalking", false);
+        }
+        //sprinting
+        if (Input.GetKey(KeyCode.LeftShift))
+        {   
+            anim.SetBool("brunning", true);
+            transform.Translate(movementDirection * runningSpeed * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            anim.SetBool("brunning", false);
+        }
+        //rotation
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);            
+        }
+    }
+
+    
+
+    
+
+    void swingsword()
     {
         if (Input.GetKey(KeyCode.E))
             anim.SetBool("bhit", true);
@@ -41,26 +85,6 @@ public class player : MonoBehaviour
         else
              anim.SetBool("bhit", false);  
     }
-
-    void movement()
-    {
-        if (Input.GetKey(KeyCode.D))
-        {
-            anim.SetBool("bwalking",true);
-            transform.Translate(xVector,yVector,zVector * movementspeed *Time.deltaTime);
-        }
-        else
-        {
-            anim.SetBool("bwalking",false);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {   
-            anim.SetBool("bwalking",true);
-            transform.Translate(xVector,yVector,minuszVector * movementspeed *Time.deltaTime);
-        }
-    }
-
     void block()
     {
         if (Input.GetKey(KeyCode.Q))
@@ -73,4 +97,5 @@ public class player : MonoBehaviour
         }
     }
 
+    
 }
