@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class mushroom_pickup : MonoBehaviour
 {
+    [SerializeField] GameObject Object;
     [SerializeField] float rotatespeed;
     Vector3 startingposition;
     [SerializeField] Vector3 movementvector;
@@ -26,15 +27,10 @@ public class mushroom_pickup : MonoBehaviour
     void sinwave()
     {
         if (Period <= Mathf.Epsilon) {return;}
-        
         float cycles = Time.time / Period; // growing over time
-        
         const float tau = Mathf.PI * 2f; // constant value of 6.283
         float RawSinWave = Mathf.Sin(cycles * tau); // going from -1 to 1
-
         movementfactor = (RawSinWave + 1f) / 2f; // recalculated to go from 0 to 1
-        
-        
         Vector3 offset = movementvector * movementfactor; 
         transform.position = startingposition + offset;
     }
@@ -42,5 +38,15 @@ public class mushroom_pickup : MonoBehaviour
     void spin()
     {
         transform.Rotate(0,1,0 * rotatespeed * Time.deltaTime);
+    }
+
+    void OnTriggerEnter(Collider other) 
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("picked up");
+            //add var increment
+            Destroy(Object);   
+        }
     }
 }
