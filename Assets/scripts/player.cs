@@ -58,17 +58,18 @@ public class player : MonoBehaviour
             anim.SetBool("bwalking", false);
         }
         //sprinting
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && staminabar.stamina >= 10)
         {   
-        
             staminabar.staminacost();
             anim.SetBool("brunning", true);
             transform.Translate(movementDirection * runningSpeed * Time.deltaTime, Space.World);
         }
-        else
-        {
+        else 
+        {   
             anim.SetBool("brunning", false);
+            
         }
+
         //rotation
         if (movementDirection != Vector3.zero)
         {
@@ -84,10 +85,13 @@ public class player : MonoBehaviour
     void swingsword()
     {
         if (Input.GetKey(KeyCode.E))
+        {
             anim.SetBool("bhit", true);
-            
+        }   
         else
-             anim.SetBool("bhit", false);  
+        {
+            anim.SetBool("bhit", false);
+        }  
     }
     void block()
     {

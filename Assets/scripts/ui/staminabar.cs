@@ -8,7 +8,7 @@ public class staminabar : MonoBehaviour
     private Image staminaBar;
     
     private WaitForSeconds regentick = new WaitForSeconds(1f);
-    private WaitForSeconds costtick = new WaitForSeconds(0.1f);
+    
 
     private float staminaCost = 0.1f; 
     private const float max_stamina = 100f;
@@ -51,6 +51,7 @@ public class staminabar : MonoBehaviour
         stamina -= staminaCost;
         if (stamina <= 0)
         {
+            
             stamina = 0;
         }
     }
