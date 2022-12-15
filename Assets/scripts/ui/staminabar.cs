@@ -28,7 +28,7 @@ public class staminabar : MonoBehaviour
     void Start()
     {
         StartCoroutine(staminaRegen()); 
-        //StartCoroutine(staminacost());
+        
     }
 
     // Update is called once per frame
