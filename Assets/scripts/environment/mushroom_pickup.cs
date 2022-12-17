@@ -5,8 +5,13 @@ using UnityEngine;
 public class mushroom_pickup : MonoBehaviour
 {
    
+    public float soundelay = 0.5f;
     healthbar healthbar;
-    staminabar staminabar;
+    manabar manabar;
+
+    [SerializeField] AudioClip ManaEatSound;
+    [SerializeField] AudioClip HealthEatSound;
+    AudioSource audioSource;
     [SerializeField] GameObject Object;
     
     [SerializeField] float rotatespeed;
@@ -18,7 +23,8 @@ public class mushroom_pickup : MonoBehaviour
     
     void Awake() 
     {
-        staminabar =  GameObject.FindGameObjectWithTag("staminabar").GetComponent<staminabar>();
+        audioSource = GetComponent<AudioSource>();
+        manabar =  GameObject.FindGameObjectWithTag("manabar").GetComponent<manabar>();
         healthbar = GameObject.FindGameObjectWithTag("healthbar").GetComponent<healthbar>();    
     }
     void Start()
@@ -55,22 +61,39 @@ public class mushroom_pickup : MonoBehaviour
         {   
             if (Object.tag == "health")
             {
+                healtheatsound();
                 healthbar.updatehealth();
-                Destroy(Object);   
+                Invoke(nameof(Destroy), soundelay);   
                 Debug.Log("health");
             }
-            else if (Object.tag == "stamina")
+            else if (Object.tag == "mana")
             {
-                staminabar.updatestamina();
-                Destroy(Object);
-                Debug.Log("stamina");
+                manaeatsound();
+                manabar.updatemana();
+                Invoke(nameof(Destroy), soundelay);  
+                Debug.Log("mana");
             }
             
                 
             
         }
-            
-        
     }
-   
+    
+    void healtheatsound()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(HealthEatSound);
+
+    }
+    void manaeatsound()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(ManaEatSound);
+    }
+
+    void Destroy() 
+    {
+        Destroy(Object);
+    }
+
 }

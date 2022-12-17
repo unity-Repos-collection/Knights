@@ -7,6 +7,7 @@ public class player : MonoBehaviour
     Animator anim;
     Rigidbody rb;
 
+    manabar manabar;
     staminabar staminabar;
     public float speed;
     public float runningSpeed;
@@ -18,6 +19,7 @@ public class player : MonoBehaviour
     void Awake() 
     {
         staminabar = GameObject.FindGameObjectWithTag("staminabar").GetComponent<staminabar>();
+        manabar = GameObject.FindGameObjectWithTag("manabar").GetComponent<manabar>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         
@@ -58,7 +60,7 @@ public class player : MonoBehaviour
             anim.SetBool("bwalking", false);
         }
         //sprinting
-        if (Input.GetKey(KeyCode.LeftShift) && staminabar.stamina >= 10)
+        if (Input.GetKey(KeyCode.LeftShift))
         {   
             staminabar.staminacost();
             anim.SetBool("brunning", true);
@@ -87,6 +89,7 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             anim.SetBool("bhit", true);
+            manabar.manacost();
         }   
         else
         {

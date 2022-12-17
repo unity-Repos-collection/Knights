@@ -7,65 +7,51 @@ public class staminabar : MonoBehaviour
 {
     private Image staminaBar;
     
-    private WaitForSeconds regentick = new WaitForSeconds(1f);
+    public WaitForSeconds regentick = new WaitForSeconds(1f);
     
 
-    private float staminaCost = 0.1f; 
-    private const float max_stamina = 100f;
+    private float StaminaCost = 0.1f; 
+    private const float max_Stamina = 100f;
     
     [Range(0,100)]
-    public float stamina = max_stamina;
+    public float Stamina = max_Stamina;
     
-    public float add_stamina = 20f;
-
-    
+    public float add_Stamina = 20f;
     
     void Awake() 
     {
-        staminaBar = GetComponent<Image>();
+        staminaBar = GetComponent<Image>();    
     }
-
+    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(staminaRegen()); 
-        
+       StartCoroutine(StaminaRegen()); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        staminaBar.fillAmount = stamina / max_stamina;
+        staminaBar.fillAmount = Stamina / max_Stamina;
     }
     
-    public void updatestamina()
+    public void staminacost()
     {   
-        stamina += add_stamina;
-        if (stamina >= 100)
+        Stamina -= StaminaCost;
+        if (Stamina <= 0)
         {
-            stamina = max_stamina;
+            Stamina = 0;
         }
     }
 
-    public void staminacost()
-    {   
-        stamina -= staminaCost;
-        if (stamina <= 0)
-        {
-            
-            stamina = 0;
-        }
-    }
-    
     // increase stamina over time 
-    private IEnumerator staminaRegen()
+    private IEnumerator StaminaRegen()
     {   
         yield return new WaitForSeconds(2);
 
-        while(stamina < max_stamina)
+        while(Stamina < max_Stamina)
         {
-            stamina += max_stamina / 100;
+            Stamina += max_Stamina / 100;
             yield return regentick;
         }
     }
 }
-

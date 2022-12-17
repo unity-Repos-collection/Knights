@@ -9,6 +9,8 @@ TagManager:
   - health
   - stamina
   - staminabar
+  - mana
+  - manabar
   layers:
   - Default
   - TransparentFX
