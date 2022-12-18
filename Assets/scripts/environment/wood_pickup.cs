@@ -8,6 +8,8 @@ public class wood_pickup : MonoBehaviour
     [SerializeField] bank bank;
     public GameObject woodpickup;
 
+    private System.Random rand = new System.Random();
+
     void Awake() 
     {
         bank = GameObject.FindGameObjectWithTag("bank").GetComponent<bank>();  
@@ -30,15 +32,15 @@ public class wood_pickup : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             bank.addwood();
-            Destroy(woodpickup);
-            Invoke(nameof(spawnwood), 0.1f);
+            woodpickup.gameObject.SetActive(false);
+            Invoke(nameof(Spawnwood), 60f);
         }    
+        
     }
 
-    void spawnwood()
+
+    void Spawnwood()
     {
-        //woodpickup.gameObject.SetActive(true);
-        Vector3 Pos = woodpickup.transform.position;
-        Instantiate(woodpickup, Pos, Quaternion.identity);
+        woodpickup.gameObject.SetActive(true); 
     }
 }

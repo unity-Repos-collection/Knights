@@ -5,14 +5,16 @@ using UnityEngine;
 public class mushroom_pickup : MonoBehaviour
 {
    
-    public float soundelay = 0.5f;
+    public float spawndelay = 20f;
     healthbar healthbar;
     manabar manabar;
 
     [SerializeField] AudioClip ManaEatSound;
     [SerializeField] AudioClip HealthEatSound;
     AudioSource audioSource;
-    [SerializeField] GameObject Object;
+
+    
+    [SerializeField] GameObject mushroom;
     
     [SerializeField] float rotatespeed;
     Vector3 startingposition;
@@ -57,22 +59,22 @@ public class mushroom_pickup : MonoBehaviour
     
     void OnTriggerEnter(Collider other) 
     {
+        
         if (other.gameObject.CompareTag("Player"))
         {   
-            if (Object.tag == "health")
+            if (mushroom.tag == "health")
             {
-                healtheatsound();
-                healthbar.updatehealth();
-                Invoke(nameof(Destroy), soundelay);   
-                //Debug.Log("health");
+                StartCoroutine(respawnhealth());
+                Invoke(nameof(spawnmushroom), 10f);
+                
             }
-            else if (Object.tag == "mana")
+            else if (mushroom.tag == "mana")
             {
-                manaeatsound();
-                manabar.updatemana();
-                Invoke(nameof(Destroy), soundelay);  
-                //Debug.Log("mana");
+                StartCoroutine(respawnMana());
+                Invoke(nameof(spawnmushroom), 10f);
+                
             }
+            
         }
     }
     
@@ -82,14 +84,31 @@ public class mushroom_pickup : MonoBehaviour
         audioSource.PlayOneShot(HealthEatSound);
     }
     void manaeatsound()
-    {
+    {   
         audioSource.Stop();
         audioSource.PlayOneShot(ManaEatSound);
     }
 
-    void Destroy() 
+    void spawnmushroom() 
     {
-        Destroy(Object);
+        mushroom.gameObject.SetActive(true);
     }
+    
+    IEnumerator respawnhealth()
+    {
+        healtheatsound();
+        yield return new WaitForSeconds(3);
+        healthbar.updatehealth();
+        mushroom.gameObject.SetActive(false);
+        
+    } 
+    IEnumerator respawnMana()
+    {
+        manaeatsound();
+        yield return new WaitForSeconds(3);
+        manabar.updatemana();
+        mushroom.gameObject.SetActive(false);
+        
+    } 
 
 }

@@ -109,10 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76887581be4cc5e4f814b6d22b50d538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundelay: 0.5
+  spawndelay: 20
   ManaEatSound: {fileID: 8300000, guid: 865b7f86b73bb8c41984580623370514, type: 3}
   HealthEatSound: {fileID: 8300000, guid: b4afc74c6fd8ef045a95670e28c757d2, type: 3}
-  Object: {fileID: 2320143957551243005}
+  mushroom: {fileID: 2320143957551243005}
   rotatespeed: 1
   movementvector: {x: 0, y: 1, z: 0}
   Period: 2
