@@ -64,18 +64,15 @@ public class mushroom_pickup : MonoBehaviour
                 healtheatsound();
                 healthbar.updatehealth();
                 Invoke(nameof(Destroy), soundelay);   
-                Debug.Log("health");
+                //Debug.Log("health");
             }
             else if (Object.tag == "mana")
             {
                 manaeatsound();
                 manabar.updatemana();
                 Invoke(nameof(Destroy), soundelay);  
-                Debug.Log("mana");
+                //Debug.Log("mana");
             }
-            
-                
-            
         }
     }
     
@@ -83,7 +80,6 @@ public class mushroom_pickup : MonoBehaviour
     {
         audioSource.Stop();
         audioSource.PlayOneShot(HealthEatSound);
-
     }
     void manaeatsound()
     {

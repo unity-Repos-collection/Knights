@@ -11,6 +11,7 @@ TagManager:
   - staminabar
   - mana
   - manabar
+  - bank
   layers:
   - Default
   - TransparentFX
