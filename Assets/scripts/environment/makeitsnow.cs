@@ -29,7 +29,7 @@ public class makeitsnow : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {   
             //Debug.Log("hailing");
-            makeithail();
+            //makeithail();
             
         }
     }

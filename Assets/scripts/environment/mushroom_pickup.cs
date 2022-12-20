@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class mushroom_pickup : MonoBehaviour
 {
-   
-    public float spawndelay = 20f;
+    [SerializeField] float respawntime = 60f;
+    
     healthbar healthbar;
     manabar manabar;
 
@@ -65,13 +65,15 @@ public class mushroom_pickup : MonoBehaviour
             if (mushroom.tag == "health")
             {
                 StartCoroutine(respawnhealth());
-                Invoke(nameof(spawnmushroom), 10f);
+                Invoke(nameof(spawnmushroom), respawntime);
+                
                 
             }
             else if (mushroom.tag == "mana")
             {
                 StartCoroutine(respawnMana());
-                Invoke(nameof(spawnmushroom), 10f);
+                Invoke(nameof(spawnmushroom), respawntime);
+                
                 
             }
             
@@ -97,18 +99,18 @@ public class mushroom_pickup : MonoBehaviour
     IEnumerator respawnhealth()
     {
         healtheatsound();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.5f);
         healthbar.updatehealth();
         mushroom.gameObject.SetActive(false);
-        
     } 
     IEnumerator respawnMana()
     {
         manaeatsound();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.5f);
         manabar.updatemana();
         mushroom.gameObject.SetActive(false);
-        
     } 
+    
+   
 
 }
