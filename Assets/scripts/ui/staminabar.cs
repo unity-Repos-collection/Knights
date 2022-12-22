@@ -1,57 +1,68 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class staminabar : MonoBehaviour
 {
-    private Image staminaBar;
-    
-    public WaitForSeconds regentick = new WaitForSeconds(1f);
-    
+    player player;
+    public float stamina;
+    public float maxstamina;
+    public bool nostamina = false;
 
-    private float StaminaCost = 0.1f; 
-    private const float max_Stamina = 100f;
-    
-    [Range(0,100)]
-    public float Stamina = max_Stamina;
-    
-    public float add_Stamina = 20f;
-    
+    public Slider staminawheel;
+    public Slider usagewheel;
     void Awake() 
     {
-        staminaBar = GetComponent<Image>();    
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<player>(); 
     }
     // Start is called before the first frame update
     void Start()
     {
-       StartCoroutine(StaminaRegen()); 
+       stamina = maxstamina;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        staminaBar.fillAmount = Stamina / max_Stamina;
+        staminacost();
     }
+
+    void staminacost()
+    {
+        if (player.isStamina)
+        {
+            if (stamina > 0)
+            {
+                stamina -= 10 * Time.deltaTime; 
+            }
+
+            usagewheel.value = stamina / maxstamina + 0.05f;
+        }
+        else
+        {
+            if (stamina < maxstamina)
+            {   
+                
+                stamina += 30 *  Time.deltaTime;
+            }
+            if (stamina >= 100)
+            {
+                nostamina = false;
+            }
+            usagewheel.value = stamina / maxstamina;
+        }
+
+        staminawheel.value = stamina / maxstamina;
+
+        if (stamina <= 0)
+        {
+            nostamina = true;
+            player.anim.SetBool("brunning", false);
+            
+        }
+    }
+
+
     
-    public void staminacost()
-    {   
-        Stamina -= StaminaCost;
-        if (Stamina <= 0)
-        {
-            Stamina = 0;
-        }
-    }
-
-    // increase stamina over time 
-    private IEnumerator StaminaRegen()
-    {   
-        yield return new WaitForSeconds(2);
-
-        while(Stamina < max_Stamina)
-        {
-            Stamina += max_Stamina / 100;
-            yield return regentick;
-        }
-    }
 }

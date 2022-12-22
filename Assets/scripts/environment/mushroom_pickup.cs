@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class mushroom_pickup : MonoBehaviour
 {
-    [SerializeField] float respawntime = 60f;
+    
     
     healthbar healthbar;
     manabar manabar;
@@ -62,17 +62,18 @@ public class mushroom_pickup : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {   
+            float randomspawntime = Random.Range(0f, 60f);
             if (mushroom.tag == "health")
             {
                 StartCoroutine(respawnhealth());
-                Invoke(nameof(spawnmushroom), respawntime);
+                Invoke(nameof(spawnmushroom), randomspawntime);
                 
                 
             }
             else if (mushroom.tag == "mana")
             {
                 StartCoroutine(respawnMana());
-                Invoke(nameof(spawnmushroom), respawntime);
+                Invoke(nameof(spawnmushroom), randomspawntime);
                 
                 
             }

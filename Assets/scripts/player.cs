@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {   
-    Animator anim;
+    public Animator anim;
     Rigidbody rb;
 
+    public bool isStamina = false;
     manabar manabar;
     staminabar staminabar;
-    public float speed;
-    public float runningSpeed;
     
+    
+    public float walkingspeed = 4f;
+    public float runningSpeed = 5f;
+    
+    public float speed;
     public float rotationSpeed;
     
     // Start is called before the first frame update
@@ -50,7 +54,8 @@ public class player : MonoBehaviour
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         //walking
         if (Input.GetKey(KeyCode.D) || (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.S)))))
-        {
+        {   
+            speed = walkingspeed;
             anim.SetBool("bwalking", true);
             movementDirection.Normalize();
             transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
@@ -60,16 +65,17 @@ public class player : MonoBehaviour
             anim.SetBool("bwalking", false);
         }
         //sprinting
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !staminabar.nostamina)
         {   
-            staminabar.staminacost();
+            speed = runningSpeed;
+            isStamina = true;
             anim.SetBool("brunning", true);
-            transform.Translate(movementDirection * runningSpeed * Time.deltaTime, Space.World);
+            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
         }
         else 
         {   
+            isStamina = false;
             anim.SetBool("brunning", false);
-            
         }
 
         //rotation
@@ -78,8 +84,10 @@ public class player : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);            
         }
-    }
 
+     
+       
+    }
     
 
     
