@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class staminabar : MonoBehaviour
 {
     player player;
@@ -43,7 +44,6 @@ public class staminabar : MonoBehaviour
         {
             if (stamina < maxstamina)
             {   
-                
                 stamina += 30 *  Time.deltaTime;
             }
             if (stamina >= 100)

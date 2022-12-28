@@ -3,57 +3,79 @@ using UnityEngine.UI;
 
 
 public class manabar : MonoBehaviour
-{
-    private Image manaBar;
-    
-    private WaitForSeconds regentick = new WaitForSeconds(1f);
-    
+{    
+    player player;
+    public float add_mana = 20;
+    public float mana;
+    public float maxmana;
+    public bool noMana = false;
 
-    private float manaCost = 0.1f; 
-    private const float max_mana = 100f;
-    
-    [Range(0,100)]
-    public float mana = max_mana;
-    
-    public float add_mana = 20f;
-
-    
-    
+    public Slider manawheel;
+    public Slider manausagewheel;
     void Awake() 
     {
-        manaBar = GetComponent<Image>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<player>(); 
     }
-
+    // Start is called before the first frame update
     void Start()
     {
-        
-        
+       mana = maxmana;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        manaBar.fillAmount = mana / max_mana;
+        manacost();
     }
-    
-    public void updatemana()
+
+    void manacost()
+    {
+        if (player.isMana)
+        {
+            if (mana > 0 && player.isManablock || player.isManafire)
+            {
+                mana -= 10 * Time.deltaTime; 
+            }
+
+            manausagewheel.value = mana / maxmana + 0.05f;
+        }
+        else
+        {
+            // stop mana incrementing
+            //if (mana < maxmana)
+            //{   
+            //    mana += 30 * Time.deltaTime;
+            //}
+            if (mana >= 100)
+            {
+                noMana = false;
+            }
+            manausagewheel.value = mana / maxmana;
+        }
+
+        manawheel.value = mana / maxmana;
+
+        if (mana <= 0)
+        {
+            player.isManafire = false;
+            player.anim.SetBool("isfireball", false);
+            player.flamethrower.SetActive(false);
+
+            player.isManablock = false;
+            player.anim.SetBool("bblocking", false);
+            player.blockparticle.SetActive(false);       
+        }
+    }
+
+      public void updatemana()
     {   
         mana += add_mana;
         if (mana >= 100)
         {
-            mana = max_mana;
+            mana = maxmana;
         }
+        //Debug.Log("mana up");
     }
-
-    public void manacost()
-    {   
-        mana -= manaCost;
-        if (mana <= 0)
-        {
-            mana = 0;
-        }
-    }
-    
-    
 }
 

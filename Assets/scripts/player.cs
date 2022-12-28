@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {   
+    public GameObject blockparticle;
+
+    public GameObject flamethrower;
     public Animator anim;
     Rigidbody rb;
 
     public bool isStamina = false;
+
+    public bool iswalking;
+    
     manabar manabar;
     staminabar staminabar;
-    
-    
+    public bool isMana = false;
+    public bool isManablock = false;
+    public bool isManafire = false;
     public float walkingspeed = 4f;
     public float runningSpeed = 5f;
     
@@ -40,7 +47,7 @@ public class player : MonoBehaviour
         movement();
         swingsword();
         block();
-        
+        castfireball();
     }
 
 
@@ -55,6 +62,7 @@ public class player : MonoBehaviour
         //walking
         if (Input.GetKey(KeyCode.D) || (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.S)))))
         {   
+            iswalking = true;
             speed = walkingspeed;
             anim.SetBool("bwalking", true);
             movementDirection.Normalize();
@@ -62,10 +70,13 @@ public class player : MonoBehaviour
         }
         else
         {
+            iswalking = false;
             anim.SetBool("bwalking", false);
         }
+        
+        //&& !staminabar.nostamina
         //sprinting
-        if (Input.GetKey(KeyCode.LeftShift) && !staminabar.nostamina)
+        if (Input.GetKey(KeyCode.LeftShift) && iswalking && !staminabar.nostamina)
         {   
             speed = runningSpeed;
             isStamina = true;
@@ -97,7 +108,7 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             anim.SetBool("bhit", true);
-            manabar.manacost();
+            
         }   
         else
         {
@@ -108,13 +119,36 @@ public class player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Q))
         {
+            isMana = true;
+            isManablock = true;
+            blockparticle.SetActive(true);
             anim.SetBool("bblocking",true);
         }
         else
         {
+            isManablock = false;
+            blockparticle.SetActive(false);
             anim.SetBool("bblocking", false);
         }
     }
+
+    void castfireball()
+    {   
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            isMana = true;
+            isManafire = true;
+            flamethrower.SetActive(true);
+            anim.SetBool("isfireball", true);
+        }
+        else
+        {
+            isManafire = false;
+            flamethrower.SetActive(false);
+            anim.SetBool("isfireball", false);
+        }
+    }
+
 
     
 }
