@@ -68,7 +68,7 @@ public class manabar : MonoBehaviour
         }
     }
 
-      public void updatemana()
+    public void updatemana()
     {   
         mana += add_mana;
         if (mana >= 100)

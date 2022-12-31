@@ -48,6 +48,8 @@ public class player : MonoBehaviour
         swingsword();
         block();
         castfireball();
+
+        debugmana();
     }
 
 
@@ -100,6 +102,14 @@ public class player : MonoBehaviour
        
     }
     
+    //debugmana 
+    void debugmana()
+    {
+        if (Input.GetKey(KeyCode.Keypad1))
+        {
+            manabar.updatemana();
+        }
+    }
 
     
 
