@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,7 @@ public class healthbar : MonoBehaviour
     public float health = max_health;
     
     public float add_health = 20f;
+    public float dec_health = 20f;
     
     void Awake() 
     {
@@ -20,15 +23,24 @@ public class healthbar : MonoBehaviour
 
     void Start()
     {
-        
+       
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        debughealth();
         healthBar.fillAmount = health / max_health; 
     }
     
+    void debughealth()
+    {
+        
+        if (Input.GetKey(KeyCode.M )) 
+        {
+            health -= dec_health * Time.deltaTime;
+        }
+    }
     
     
     

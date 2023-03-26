@@ -55,4 +55,5 @@ public class patrol_priest : MonoBehaviour
     {
         anim.SetBool("iswalking", true);
     }
+
 }
